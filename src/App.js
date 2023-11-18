@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
+//import { StrictMode } from 'react';
+//import { createRoot } from 'react-dom/client';
 import './styles.css';
 
 
@@ -107,6 +107,7 @@ export default function Board() {
     <>
       <div>
         <span align="right">
+          <AboutPage/>
           <Profile/>
         </span>
         <span align="left">
