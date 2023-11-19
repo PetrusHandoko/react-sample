@@ -28,6 +28,25 @@ function Profile() {
   );
 }
 
+function MyCheckbox({label, cbvalue, onclick}) {
+
+  function handleClick(){
+    alert("MyCheckbox {label} ");
+  }
+
+  if ( !onclick ){
+    onclick = handleClick;
+  }
+
+  return (
+  <div>
+    <input type="checkbox" name="{name}" onClick={onclick} />
+    <label for="{name}">{label}</label>
+  </div>
+  
+  );
+}
+
 function MyButton(props) {
 
   function handleClick(){
@@ -73,13 +92,86 @@ export default function Board() {
 
   const [squares, setSquares] = useState(Array(9).fill(null));
   const [isPlayer1, setPlayer] = useState(true);
+  const [computerPlayer, setComputerPlayer] = useState(false);
+  const [computerPlayFirst, setComputerPlayFirst] = useState(false);
   const [winner, setWinner] = useState(null);
   
   function resetBoard(){
     setPlayer(true);
     setWinner(null);
+	setComputerPlayer(false);
     setSquares(Array(9).fill(null));
   }
+
+  function letComputerPlay(){
+	resetBoard();
+    setComputerPlayer(true);
+	setPlayer(true);
+  	//let p = randomPos(0);
+ 	//handleClick(p);
+  }
+
+  function letPlayFirst(){
+	resetBoard();
+    setComputerPlayer(true);
+	setPlayer(false);
+ 	handleClick(0);
+  }
+
+  function randomPos(pos){
+	let max = 9 ;
+	let ran = Math.floor(Math.random() * max);
+	return ran;
+  } 
+  
+  function calcBestPosition(squares, i){
+	
+	const lines = [
+    	[0, 1, 2],
+    	[3, 4, 5],
+    	[6, 7, 8],
+    	[0, 3, 6],
+    	[1, 4, 7],
+    	[2, 5, 8],
+    	[0, 4, 8],
+    	[2, 4, 6]
+  	];
+	
+  for (let i = 0; i < lines.length; i++) {
+    const [a, b, c] = lines[i];
+
+	if ( lines[a] ){
+		if ( lines[a] === lines[b]){
+			return c;
+		}
+	}
+	
+  }
+  	let p = randomPos(i);
+  	while ( p < 10 && squares[p] != null) p++;
+  	if ( squares[p] != null){
+	  // cannot find empty one, start from 0
+	  let np= p; 
+	  for(let p=0; p < np && squares[p] != null ; p++);
+	  if (p == np ) return 10 ; // error should not move
+  	}else{
+  	  return p;
+	}
+	
+  }
+  
+  function callAutoPlayer( squares, i ){
+
+	const nextSquares = squares.slice();
+	
+	let pos = calcBestPosition(squares, i);
+	if ( isPlayer1 )
+		nextSquares[pos] = "O";
+	else
+		nextSquares[pos] = "X";
+	setSquares(nextSquares);
+};
+  
 
   function handleClick(i) {
     if ( winner ) return;
@@ -91,15 +183,23 @@ export default function Board() {
       nextSquares[i] = "O";
     
     setSquares(nextSquares);
-    setPlayer(!isPlayer1);
+	if (!computerPlayer)
+	    setPlayer(!isPlayer1);
     setWinner(calculateWinner(nextSquares));
+	
+	if ( computerPlayer )
+		callAutoPlayer(nextSquares,i);
   }
 
   let status;
   if (winner) {
     status = "Winner: " + winner;
   } else {
-    status = "Next player: " + (isPlayer1 ? "X" : "O");
+	if ( computerPlayer ){
+	    status = "Play against computer (O)" ;	
+	}else{
+	    status = "Next player: "+ (isPlayer1 ? "X" : "O");
+	}
   }
 
 
@@ -129,7 +229,9 @@ export default function Board() {
         </span>
       </div>
       <br/>
-      <div><MyButton onClick={resetBoard} label="Reset" /></div>
+      <div><MyButton onClick={resetBoard} label="Reset" />
+	  <MyButton onClick={letComputerPlay} label="Play with computer" />
+      <MyCheckbox onclick={letPlayFirst} cbvalue="" label="Computer play first" /></div>
       <div> {status} </div>
     </>
   );
