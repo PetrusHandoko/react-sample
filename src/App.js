@@ -114,7 +114,6 @@ export default function Board() {
   }
 
   function letComputerPlayFirst(){
-	alert("computer?"+computerPlayFirst);
 	setComputerPlayFirst(!computerPlayFirst);
   }
 
@@ -154,7 +153,7 @@ export default function Board() {
 	  // cannot find empty one, start from 0
 	  let np= p; 
 	  for(let p=0; p < np && squares[p] != null ; p++);
-	  if (p == np ) return 10 ; // error should not move
+	  if (p === np ) return 10 ; // error should not move
   	}else{
   	  return p;
 	}
@@ -188,7 +187,7 @@ export default function Board() {
 	    setPlayer(!isPlayer1);
     setWinner(calculateWinner(nextSquares));
 	
-	if ( computerPlayer )
+	if ( !winner && computerPlayer )
 		callAutoPlayer(nextSquares,i);
   }
 
