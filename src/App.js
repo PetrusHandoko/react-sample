@@ -30,8 +30,8 @@ function Profile() {
 
 function MyCheckbox({label, cbvalue, onclick}) {
 
-  function handleClick(){
-    alert("MyCheckbox {label} ");
+  function handleClick( ){
+    alert("MyCheckbox ");
   }
 
   if ( !onclick ){
@@ -106,19 +106,20 @@ export default function Board() {
   function letComputerPlay(){
 	resetBoard();
     setComputerPlayer(true);
-	setPlayer(true);
-  	//let p = randomPos(0);
- 	//handleClick(p);
+	if ( computerPlayFirst ){
+		setPlayer(false);
+		handleClick(randomPos());
+	}else
+		setPlayer(true);
   }
 
-  function letPlayFirst(){
-	resetBoard();
-    setComputerPlayer(true);
-	setPlayer(false);
- 	handleClick(0);
+  function letComputerPlayFirst(){
+	alert("computer?"+computerPlayFirst);
+	setComputerPlayFirst(!computerPlayFirst);
   }
 
-  function randomPos(pos){
+
+  function randomPos(){
 	let max = 9 ;
 	let ran = Math.floor(Math.random() * max);
 	return ran;
@@ -147,7 +148,7 @@ export default function Board() {
 	}
 	
   }
-  	let p = randomPos(i);
+  	let p = randomPos();
   	while ( p < 10 && squares[p] != null) p++;
   	if ( squares[p] != null){
 	  // cannot find empty one, start from 0
@@ -231,7 +232,7 @@ export default function Board() {
       <br/>
       <div><MyButton onClick={resetBoard} label="Reset" />
 	  <MyButton onClick={letComputerPlay} label="Play with computer" />
-      <MyCheckbox onclick={letPlayFirst} cbvalue="" label="Computer play first" /></div>
+      <MyCheckbox onclick={letComputerPlayFirst} cbvalue="" label="Computer play first" /></div>
       <div> {status} </div>
     </>
   );
