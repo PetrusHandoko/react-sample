@@ -125,29 +125,8 @@ export default function Board() {
   } 
   
   function calcBestPosition(squares, i){
-	
-	const lines = [
-    	[0, 1, 2],
-    	[3, 4, 5],
-    	[6, 7, 8],
-    	[0, 3, 6],
-    	[1, 4, 7],
-    	[2, 5, 8],
-    	[0, 4, 8],
-    	[2, 4, 6]
-  	];
-	
-  for (let i = 0; i < lines.length; i++) {
-    const [a, b, c] = lines[i];
-
-	if ( lines[a] ){
-		if ( lines[a] === lines[b]){
-			return c;
-		}
-	}
-	
-  }
-  	let p = randomPos();
+	  // Now use random move.
+	let p = randomPos();
   	while ( p < 10 && squares[p] != null) p++;
   	if ( squares[p] != null){
 	  // cannot find empty one, start from 0
