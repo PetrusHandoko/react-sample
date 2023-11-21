@@ -103,7 +103,7 @@ export default function Board() {
     setSquares(Array(9).fill(null));
   }
 
-  function letComputerPlay(){
+  function playWithComputer(){
 	resetBoard();
     setComputerPlayer(true);
 	if ( computerPlayFirst ){
@@ -133,17 +133,18 @@ export default function Board() {
 	  let np= p; 
 	  for(let p=0; p < np && squares[p] != null ; p++);
 	  if (p === np ) return 10 ; // error should not move
-  	}else{
-  	  return p;
-	}
-	
+  	}
+  	return p;
   }
   
   function callAutoPlayer( squares, i ){
 
 	const nextSquares = squares.slice();
-	
-	let pos = calcBestPosition(squares, i);
+		
+	let pos = findForcedMoved ( squares );
+	if ( pos == null ){
+		pos = calcBestPosition(squares, i);
+	}
 	if ( isPlayer1 )
 		nextSquares[pos] = "O";
 	else
@@ -175,7 +176,12 @@ export default function Board() {
     status = "Winner: " + winner;
   } else {
 	if ( computerPlayer ){
-	    status = "Play against computer (O)" ;	
+	    status = "Play against computer" ;
+		if ( computerPlayFirst ){
+			status += " - X";
+		}else{
+			status += " - O";
+		}
 	}else{
 	    status = "Next player: "+ (isPlayer1 ? "X" : "O");
 	}
@@ -209,7 +215,7 @@ export default function Board() {
       </div>
       <br/>
       <div><MyButton onClick={resetBoard} label="Reset" />
-	  <MyButton onClick={letComputerPlay} label="Play with computer" />
+	  <MyButton onClick={playWithComputer} label="Play with computer" />
       <MyCheckbox onclick={letComputerPlayFirst} cbvalue="" label="Computer play first" /></div>
       <div> {status} </div>
     </>
@@ -230,9 +236,59 @@ function calculateWinner(squares) {
   ];
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
-    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+    if (squares[a] && squares[a] == squares[b] && squares[a] == squares[c]) {
       return squares[a];
     }
   }
+  return null;
+}
+
+function findForcedMoved(squares) {
+	// Force moved need to be executed to avoid loosing
+	// for example:  x x _ or x _ x or _ x x
+	// The computer need to fill in _ with O
+	
+  const lines = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6]
+  ];
+  let force_position = -1 ;
+  for (let i = 0; i < lines.length; i++) {
+    const [a, b, c] = lines[i];
+	
+	if ( !squares[a] ) {
+		// _ ? ?
+		force_position = a;
+		if ( (squares[b] && squares[c]) && (squares[b] == squares[c]) ){
+			return force_position;
+		}
+		// b or c is empty skipped it
+		continue;
+	
+	}else{
+
+		// + ? ?
+		if ( !squares[b] ) {
+			// + _ ?
+			force_position = b;
+			if ( squares[a] && squares[c] && (squares[a] == squares[c]) ){
+				return force_position;
+			}
+			continue ;
+		}
+		if ( !squares[c] ){
+			// + + _
+			force_position = c;
+			if (squares[a] == squares[b]) 
+				return force_position;
+		}
+	}
+  }// for
   return null;
 }
