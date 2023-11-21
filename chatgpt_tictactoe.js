@@ -1,4 +1,6 @@
-/* To implement playing against a computer opponent in the React tic-tac-toe game, you'll need to modify the `Board` component to handle the computer's moves. Here's an updated version of the previous code with a basic AI opponent:
+/* To implement playing against a computer opponent in the React tic-tac-toe game, you'll need to modify the `Board` 
+component to handle the computer's moves.
+Here's an updated version of the previous code with a basic AI opponent:
 */
 
 
@@ -131,8 +133,12 @@ function App() {
 }
 /***
 
-This updated code introduces a simple AI for the computer opponent. It selects a random available move whenever it's the computer's turn to play ('O'). The `makeComputerMove` function chooses an available square randomly.
+This updated code introduces a simple AI for the computer opponent. 
+It selects a random available move whenever it's the computer's turn to play ('O'). 
+The `makeComputerMove` function chooses an available square randomly.
 
-Ensure that you've set up a React environment, and you can replace the `Board` component in your React application with this modified version to enable playing against a computer opponent in the tic-tac-toe game.
+Ensure that you've set up a React environment, 
+and you can replace the `Board` component in your React application with 
+this modified version to enable playing against a computer opponent in the tic-tac-toe game.
 
 **/
