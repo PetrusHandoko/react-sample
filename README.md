@@ -34,10 +34,16 @@ Original Tic Tac Toe allow you to play against second person.  T learn more I ad
 ## Chatgpt
 I was looking at some code in c++ that I was not be able to find a good solution.  Then I was thinking, why not asked chatgpt instead of search.  One thing lead to another, I was asking chatgpt to build a c++ version of Tic Tac Toe.  
 The experience is quite interesting.  
+
 First it generate the simple turn base Tic Tac Toe application.  Similar to the react app sample code.  Then I asked to add ability to play with computer.  ChatGPT added the computer player and use random function to generate the move.  Then I asked to provide React version of this.  ChatCPT refers the computer random moves as AI base Tic Tac Toe application and suggested to implement some learning mechanism. :-) While I was labeling my enhancement as Intelligence branch since I added some extra moved that ChatCPT does not provides in the code.  
 
-This is similar to what my whole experiance. I guess ChatGPT may already replace me as developer.  
+Overall the code similar to mine, except some JavaScript feature that I did not know exist.  For example, defining random move, I calculate the position from original board array, ChatGPT use reduce array function to create new array of the valid ( empty square ) square's index then pick a random position out of it.  Since I did not know this javasript array feature, I pick a random position and move to the next position if it is not valid square. Keep going until find available one.  
 
+I added a new feature that chatGPT does not provides.  I added the ability for the computer to block user to win and also not to pick random position if computer has a change to win.
+
+Another code style that ChatGPT uses a bit is defining a function as a constant that store anonymous function ( lambda ) instead of the way I define as functions.  I guess that is the common way people defines functions within Reach component.  
+
+This is similar to what my whole experiance. I guess ChatGPT may already replaced me as developer.  
 
 
 Hope you enjoy as I did.  Roughly I spend 3 days on and off on the project.
