@@ -28,7 +28,7 @@ function Profile() {
   );
 }
 
-function MyCheckbox({label, cbvalue, onclick}) {
+function MyCheckbox({label, isChecked, onclick}) {
 
   function handleClick( ){
     alert("MyCheckbox ");
@@ -37,11 +37,14 @@ function MyCheckbox({label, cbvalue, onclick}) {
   if ( !onclick ){
     onclick = handleClick;
   }
-
+  
   return (
   <div>
-    <input type="checkbox" name="{name}" onClick={onclick} />
-    <label for="{name}">{label}</label>
+    <input type="checkbox"
+		name="{name}"	
+		checked={isChecked} 
+		onClick={onclick} />
+    <label onClick={onclick} for="{name}">{label}</label>
   </div>
   
   );
@@ -91,7 +94,7 @@ function Square({value, onSquareClick}){
 export default function Board() {
 
   const [squares, setSquares] = useState(Array(9).fill(null));
-  const [isPlayer1, setPlayer] = useState(true);
+  const [isXPlayer, setPlayer] = useState(true);
   const [computerPlayer, setComputerPlayer] = useState(false);
   const [computerPlayFirst, setComputerPlayFirst] = useState(false);
   const [winner, setWinner] = useState(null);
@@ -100,23 +103,19 @@ export default function Board() {
     setPlayer(true);
     setWinner(null);
 	setComputerPlayer(false);
+	setComputerPlayFirst(false);
     setSquares(Array(9).fill(null));
   }
 
-  function playWithComputer(){
+  function startPlay(){
 	resetBoard();
-    setComputerPlayer(true);
+    setComputerPlayFirst(computerPlayFirst);
+	setComputerPlayer(computerPlayer);
 	if ( computerPlayFirst ){
 		setPlayer(false);
-		handleClick(randomPos());
-	}else
-		setPlayer(true);
+		handleClick(randomPos(), Array(9).fill(null), true);
+	}
   }
-
-  function letComputerPlayFirst(){
-	setComputerPlayFirst(!computerPlayFirst);
-  }
-
 
   function randomPos(){
 	let max = 9 ;
@@ -124,51 +123,67 @@ export default function Board() {
 	return ran;
   } 
   
-  function calcBestPosition(squares, i){
+  function calcBestPosition(squares){
 	  // Now use random move.
-	let p = randomPos();
-  	while ( p < 10 && squares[p] != null) p++;
-  	if ( squares[p] != null){
-	  // cannot find empty one, start from 0
-	  let np= p; 
-	  for(let p=0; p < np && squares[p] != null ; p++);
-	  if (p === np ) return 10 ; // error should not move
-  	}
-  	return p;
+	let pos = findForcedMoved ( squares );
+	if ( pos == null ){
+		let p = randomPos();
+	
+	  	while ( p < 10 && squares[p] != null) p++;
+	  	if ( squares[p] != null){
+		  // cannot find empty one, start from 0
+		  let np= p; 
+		  for(let p=0; p < np && squares[p] != null ; p++);
+		  if (p === np ) return 10 ; // error should not move
+	  	}
+  		return p;
+	}
+	return pos;
   }
   
   function callAutoPlayer( squares, i ){
 
 	const nextSquares = squares.slice();
-		
-	let pos = findForcedMoved ( squares );
-	if ( pos == null ){
-		pos = calcBestPosition(squares, i);
+	
+	let pos = calcBestPosition ( squares );
+	if ( pos < 10 ){
+		if ( isXPlayer )
+			nextSquares[pos] = "O";
+		else
+			nextSquares[pos] = "X";
+		setSquares(nextSquares);
+		setWinner(calculateWinner(nextSquares));
 	}
-	if ( isPlayer1 )
-		nextSquares[pos] = "O";
-	else
-		nextSquares[pos] = "X";
-	setSquares(nextSquares);
-};
-  
+  };
 
-  function handleClick(i) {
-    if ( winner ) return;
-    if ( squares[i]) return;
-    const nextSquares = squares.slice();
-    if ( isPlayer1)
+
+
+  function handleClick(i, initial, xp) {
+	let csquares = squares;
+    if ( winner && !initial) {
+		alert("Please reset or click start to replay the game.")
+		return;
+	}
+	if ( initial ) csquares = initial;
+    if ( csquares[i]) return;
+
+    const nextSquares = csquares.slice();
+	let cplayer = ( xp )?xp:isXPlayer;
+//alert("c"+xp+" xp:"+isXPlayer);
+    if ( cplayer )
       nextSquares[i] = "X";
     else
       nextSquares[i] = "O";
-    
-    setSquares(nextSquares);
+     
+	setSquares(nextSquares);
+    //if ( !winner ) setSquares(nextSquares);
 	if (!computerPlayer)
-	    setPlayer(!isPlayer1);
+	    setPlayer(!cplayer);
     setWinner(calculateWinner(nextSquares));
 	
-	if ( !winner && computerPlayer )
-		callAutoPlayer(nextSquares,i);
+	if ( !winner && computerPlayer && !initial )  
+		callAutoPlayer(nextSquares);
+
   }
 
   let status;
@@ -183,7 +198,7 @@ export default function Board() {
 			status += " - O";
 		}
 	}else{
-	    status = "Next player: "+ (isPlayer1 ? "X" : "O");
+	    status = "Next player: "+ (isXPlayer ? "X" : "O");
 	}
   }
 
@@ -191,11 +206,12 @@ export default function Board() {
   return (
     <>
       <div>
-        <span align="right">
+        <span align="left" valign="top">
           <AboutPage/>
           <Profile/>
         </span>
-        <span align="left">
+        <span align="left" valign="top">
+			<h2> Tic tac Toe</h2>
           <div className="board-row">
             <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
             <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
@@ -214,9 +230,22 @@ export default function Board() {
         </span>
       </div>
       <br/>
-      <div><MyButton onClick={resetBoard} label="Reset" />
-	  <MyButton onClick={playWithComputer} label="Play with computer" />
-      <MyCheckbox onclick={letComputerPlayFirst} cbvalue="" label="Computer play first" /></div>
+      <div>
+      <MyButton onClick={resetBoard} label="Reset" />
+	  <MyButton onClick={startPlay} label="Start" />
+      <MyCheckbox 
+	  	onclick={()=>{
+		  setComputerPlayer(!computerPlayer);
+		 }}
+		 isChecked={computerPlayer}
+		 label="Play with Computer" />
+      <MyCheckbox 
+	  	isChecked={computerPlayFirst}  
+	  	onclick={()=>{
+			if( !computerPlayer) return;
+		  setComputerPlayFirst(!computerPlayFirst);
+     	 }}
+	    label="Computer play first" /></div>
       <div> {status} </div>
     </>
   );
