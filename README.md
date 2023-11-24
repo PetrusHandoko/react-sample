@@ -1,8 +1,7 @@
 # Learning React
 
 This projects is build to learn react.
-See in action: https://tictactoe-7ba8x0sdi-petrus-handokos-projects.vercel.app
-
+https://tictactoe-lovat-three.vercel.app
 ## How the work setup.  
 To work on this project, I setup a clone the git source into my Mac Mini. I access my mini from my Ipad as my main development platform.  Ipad is being used since I want to do the works on the weekend away from home and my mini.  
 
