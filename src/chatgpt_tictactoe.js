@@ -131,6 +131,8 @@ function App() {
     </div>
   );
 }
+
+export default App;
 /***
 
 This updated code introduces a simple AI for the computer opponent. 
