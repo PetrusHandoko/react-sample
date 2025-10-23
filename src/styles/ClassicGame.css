@@ -14,32 +14,54 @@ body {
   padding: 20px;
 }
 
+.game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
 .board {
   display: inline-block;
+  background: #fff;
+  border: 2px solid #666;
   margin: 20px auto;
+}
+
+.board-row {
+  height: 60px;
+  display: flex;
+}
+
+.board-row:not(:last-child) {
+  border-bottom: 2px solid #666;
 }
 
 .status {
   font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: 20px;
+  color: #333;
 }
 
 .square {
-  background: #fff;
-  border: 2px solid #999;
-  float: left;
-  font-size: 24px;
-  font-weight: bold;
-  line-height: 34px;
+  width: 60px;
   height: 60px;
-  margin-right: -2px;
-  margin-top: -2px;
+  background: #fff;
+  border: none;
+  border-right: 2px solid #666;
+  font-size: 28px;
+  font-weight: bold;
+  line-height: 60px;
+  margin: 0;
   padding: 0;
   text-align: center;
-  width: 60px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background-color 0.2s ease;
+}
+
+.square:last-child {
+  border-right: none;
 }
 
 .square:hover {
