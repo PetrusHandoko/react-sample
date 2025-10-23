@@ -1,1 +1,4 @@
 node_modules
+
+# Ignore production build folder
+build/
