@@ -137,8 +137,14 @@ function NxNBoard() {
     );
   }
 
+  const resetGame = () => {
+    setSquares(Array(boardSize * boardSize).fill(null));
+    setXIsNext(true);
+    setGameOver(false);
+  };
+
   return (
-    <div>
+    <div className="game">
       <div className="game-controls">
         <label>Board Size: </label>
         <select 
@@ -154,6 +160,7 @@ function NxNBoard() {
       <div className="board">
         {boardRows}
       </div>
+      <button className="reset-button" onClick={resetGame}>Reset Game</button>
     </div>
   );
 }

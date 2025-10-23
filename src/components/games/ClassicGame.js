@@ -62,6 +62,12 @@ function ClassicGame() {
     status = 'Next player: ' + (xIsNext ? 'X' : 'O');
   }
 
+  const resetGame = () => {
+    setSquares(Array(9).fill(null));
+    setXIsNext(true);
+    setGameOver(false);
+  };
+
   return (
     <div className="game">
       <div className="status">{status}</div>
@@ -82,6 +88,7 @@ function ClassicGame() {
           {renderSquare(8)}
         </div>
       </div>
+      <button className="reset-button" onClick={resetGame}>Reset Game</button>
     </div>
   );
 }

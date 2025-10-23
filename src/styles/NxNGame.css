@@ -4,7 +4,7 @@
   background: #999;
   padding: 1px;
   width: fit-content;
-  margin: 20px auto;
+  margin: 0 auto;
 }
 
 .board-row {
@@ -30,26 +30,43 @@
   background: #ddd;
 }
 
+.game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .game-controls {
-  margin: 20px 0;
+  margin-bottom: 2px;
   text-align: center;
 }
 
 .game-controls select {
-  margin-left: 10px;
-  padding: 5px;
+  margin-left: 8px;
+  padding: 5px 10px;
   font-size: 16px;
+  border: 2px solid #666;
+  border-radius: 4px;
 }
 
 .status {
-  margin-bottom: 10px;
+  margin-bottom: 2px;
   text-align: center;
   font-size: 18px;
   font-weight: bold;
 }
 
-.game {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.reset-button {
+  margin-top: 15px;
+  padding: 8px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  background: #fff;
+  border: 2px solid #666;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.reset-button:hover {
+  background: #f0f0f0;
 }

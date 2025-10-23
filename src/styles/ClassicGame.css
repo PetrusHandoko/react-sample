@@ -67,3 +67,18 @@ body {
 .square:hover {
   background: #f0f0f0;
 }
+
+.reset-button {
+  margin-top: 20px;
+  padding: 8px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  background: #fff;
+  border: 2px solid #666;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.reset-button:hover {
+  background: #f0f0f0;
+}
