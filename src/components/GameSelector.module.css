@@ -1,0 +1,106 @@
+.gameSelector {
+  text-align: center;
+  animation: fadeIn 0.5s ease;
+}
+
+.container {
+  padding: var(--spacing-large);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.versionSelector {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-medium);
+  flex-wrap: wrap;
+  margin: var(--spacing-large) 0;
+  padding: 0 var(--spacing-large);
+}
+
+.versionButton {
+  padding: var(--spacing-small) var(--spacing-large);
+  font-size: 1rem;
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background: var(--button-bg);
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 180px;
+}
+
+.versionButton:hover {
+  background: var(--button-hover-bg);
+  transform: translateY(-2px);
+  box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.versionButton.active {
+  background: var(--primary-color);
+  color: var(--button-active-text);
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+.infoPanel {
+  background: var(--info-bg);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-medium);
+  margin: var(--spacing-medium) auto;
+  max-width: 600px;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  animation: slideIn 0.3s ease;
+}
+
+.gameBoard {
+  margin-top: var(--spacing-large);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .versionSelector {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-small);
+  }
+
+  .versionButton {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: var(--spacing-medium);
+  }
+
+  .infoPanel {
+    margin: var(--spacing-medium) var(--spacing-small);
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .versionButton {
+    background: var(--dark-button-bg);
+    border-color: var(--dark-border-color);
+    color: var(--dark-text-color);
+  }
+
+  .versionButton:hover {
+    background: var(--dark-button-hover-bg);
+  }
+
+  .versionButton.active {
+    background: var(--primary-dark);
+    color: var(--dark-button-active-text);
+  }
+
+  .infoPanel {
+    background: var(--dark-info-bg);
+    color: var(--dark-text-secondary);
+  }
+}

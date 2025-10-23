@@ -1,12 +1,19 @@
 import React from 'react';
-import './App.css';
-import GameSelector from './GameSelector';
+import './styles/App.css';
+import './styles/theme.css';
+import { GameSelector } from './components';
+import { ErrorBoundary } from './components/common';
+import { ThemeProvider } from './contexts/ThemeContext';
 
 function App() {
   return (
-    <div className="App">
-      <GameSelector />
-    </div>
+    <ThemeProvider>
+      <div className="App">
+        <ErrorBoundary>
+          <GameSelector />
+        </ErrorBoundary>
+      </div>
+    </ThemeProvider>
   );
 }
 

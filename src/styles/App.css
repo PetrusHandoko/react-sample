@@ -1,0 +1,27 @@
+.App {
+  text-align: center;
+  animation: fadeIn 0.5s ease;
+}
+
+.App-header {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+}
+
+/* Game container styles */
+.game-container {
+  padding: var(--spacing-large);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .game-container {
+    padding: var(--spacing-medium);
+  }
+}

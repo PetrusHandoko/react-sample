@@ -1,8 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
+test('renders the game selector', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  // Check for the main game title
+  const title = screen.getByRole('heading', { name: /tic tac toe game/i });
+  expect(title).toBeInTheDocument();
 });

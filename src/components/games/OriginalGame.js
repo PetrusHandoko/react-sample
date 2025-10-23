@@ -1,7 +1,6 @@
-import { useState } from 'react';
-//import { StrictMode } from 'react';
-//import { createRoot } from 'react-dom/client';
-import './styles.css';
+import React, { useState } from 'react';
+import '../../styles/ClassicGame.css';
+import { calculateWinner, findForcedMove } from '../../utils/gameLogic';
 
 
 const user = {
@@ -90,7 +89,7 @@ function Square({value, onSquareClick}){
   )
 }
 
-export default function Board() {
+function OriginalGame() {
 
   const [squares, setSquares] = useState(Array(9).fill(null));
   const [isXPlayer, setPlayer] = useState(true);
@@ -123,8 +122,8 @@ export default function Board() {
   } 
   
   function calcBestPosition(squares){
-	  // Now use random move.
-	let pos = findForcedMoved ( squares );
+      // Now use random move.
+    let pos = findForcedMove ( squares );
 	if ( pos == null ){
 		let p = randomPos();
 	
@@ -151,7 +150,7 @@ export default function Board() {
 		else
 			nextSquares[pos] = "X";
 		setSquares(nextSquares);
-		setWinner(calculateWinner(nextSquares));
+    setWinner(calculateWinner(nextSquares));
 	}
   };
 
@@ -251,27 +250,11 @@ export default function Board() {
 }
 
 
-function calculateWinner(squares) {
-  const lines = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6]
-  ];
-  for (let i = 0; i < lines.length; i++) {
-    const [a, b, c] = lines[i];
-    if (squares[a] && squares[a] == squares[b] && squares[a] == squares[c]) {
-      return squares[a];
-    }
-  }
-  return null;
-}
+  // use calculateWinner and findForcedMove from utils instead of duplicating here
 
-function findForcedMoved(squares) {
+  // Note: findForcedMove is imported from utils as findForcedMove
+
+  function findForcedMoved(squares) {
 	// Force moved need to be executed to avoid loosing
 	// for example:  x x _ or x _ x or _ x x
 	// The computer need to fill in _ with O
@@ -320,3 +303,5 @@ function findForcedMoved(squares) {
   }// for
   return null;
 }
+
+export default OriginalGame;

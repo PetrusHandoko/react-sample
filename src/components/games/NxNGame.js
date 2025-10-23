@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import './App.css';
+import '../../styles/NxNGame.css';
+import { getRandomMove } from '../../utils/gameLogic';
 
 function Square(props) {
   return (
@@ -9,7 +10,7 @@ function Square(props) {
   );
 }
 
-function Board() {
+function NxNBoard() {
   const [boardSize, setBoardSize] = useState(3); // Default size, can be changed
   const [squares, setSquares] = useState(Array(boardSize * boardSize).fill(null));
   const [xIsNext, setXIsNext] = useState(true);
@@ -150,31 +151,11 @@ function Board() {
         </select>
       </div>
       <div className="status">{status}</div>
-      <div className="board" style={{
-        display: 'grid',
-        gap: '1px',
-        background: '#999',
-        padding: '1px',
-        width: 'fit-content',
-        margin: '20px auto'
-      }}>
+      <div className="board">
         {boardRows}
       </div>
     </div>
   );
 }
 
-function App() {
-  return (
-    <div className="App">
-      <h1>N x N Tic Tac Toe</h1>
-      <div className="game">
-        <div className="game-board">
-          <Board />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export default App;
+export default NxNBoard;
